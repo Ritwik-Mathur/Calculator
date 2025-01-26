@@ -1,0 +1,45 @@
+import tkinter as tk
+
+def on_click(event):
+    text = event.widget.cget("text")
+    if text == "=":
+        try:
+            result = eval(screen.get())
+            screen.delete(0, tk.END)
+            screen.insert(tk.END, str(result))
+        except Exception as e:
+            screen.delete(0, tk.END)
+            screen.insert(tk.END, "Error")
+    elif text == "C":
+        screen.delete(0, tk.END)
+    else:
+        screen.insert(tk.END, text)
+
+
+root = tk.Tk()
+root.title("Simple Calculator")
+root.geometry("300x400")
+
+
+screen = tk.Entry(root, font=("Arial", 20), borderwidth=5, relief=tk.SUNKEN, justify=tk.RIGHT)
+screen.pack(fill=tk.BOTH, ipadx=8, pady=10, padx=10)
+
+
+buttons = [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["C", "0", "=", "+"]
+]
+
+
+for row in buttons:
+    frame = tk.Frame(root)
+    frame.pack(expand=True, fill=tk.BOTH)
+    for button_text in row:
+        btn = tk.Button(frame, text=button_text, font=("Arial", 18), padx=10, pady=10)
+        btn.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+        btn.bind("<Button-1>", on_click)
+
+
+root.mainloop()
